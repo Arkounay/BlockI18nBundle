@@ -1,0 +1,95 @@
+$(function(){
+
+    // Tiny MCE init:
+    tinymce.init({
+        selector: ".js-arkounay-block-bundle-block, .js-arkounay-block-bundle-entity",
+        inline: true,
+        menubar:false,
+        statusbar: false,
+        plugins: [
+            "advlist autolink link lists charmap hr anchor pagebreak template",
+            "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime nonbreaking",
+            "table contextmenu directionality paste textcolor code save"
+        ],
+        image_dimensions: false,
+        toolbar: "insertfile undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist | link image | forecolor backcolor | code save",
+        extended_valid_elements: "div[*],meta[*],span[*]",
+        valid_children: "+body[meta],+div[h2|span|meta|object],+object[param|embed]",
+        valid_elements: '*[*]',
+        forced_root_block: '',
+        remove_script_host: false,
+        entity_encoding: "raw",
+        paste_as_text: true,
+        convert_urls: false,
+        save_onsavecallback: function () {
+            entitiesCallbackSaveAjax();
+        }
+    });
+
+    tinymce.init({
+        selector: ".js-arkounay-block-light",
+        inline: true,
+        menubar:false,
+        statusbar: false,
+        plugins: [
+            "paste save"
+        ],
+        toolbar: "insertfile undo redo bold italic save code",
+        invalid_elements: 'span',
+        forced_root_block: '',
+        entity_encoding: "raw",
+        paste_as_text: true,
+        save_onsavecallback: function (ed) {
+            entitiesCallbackSaveAjax();
+        }
+    });
+
+    // Tiny MCE init (plain):
+    tinymce.init({
+        selector: ".js-arkounay-block-bundle-entity-plain",
+        inline: true,
+        menubar:false,
+        statusbar: false,
+        plugins: [
+            "paste save"
+        ],
+        toolbar: "undo redo save",
+        invalid_elements: 'b, strong, i, em, span',
+        forced_root_block: '',
+        entity_encoding: "raw",
+        paste_as_text: true,
+        save_onsavecallback: function (ed) {
+            entitiesCallbackSaveAjax();
+        }
+    });
+
+    /**
+     * Save all the editable blocks in the page
+     */
+    function entitiesCallbackSaveAjax() {
+        var $tinymce = $('.js-arkounay-block-bundle-block, .js-arkounay-block-bundle-entity, .js-arkounay-block-bundle-plain, .js-arkounay-block-bundle-entity-plain, .js-arkounay-block-light');
+        var blocks = [];
+        $tinymce.each(function(i, block){
+            var $block = $(block);
+            blocks.push({
+                id: $block.data('id'),
+                content: tinymce.get($block.attr('id')).getContent(),
+                entity: $block.data('entity'),
+                field: $block.data('field')
+            });
+        });
+
+        $.ajax({
+            url: ajax_edit_pageblocks_url,
+            type: "POST",
+            data: {blocks: blocks},
+            success: function (res) {
+                // succès
+            },
+            error: function () {
+                alert('An error occured.');
+            }
+        });
+    }
+
+});

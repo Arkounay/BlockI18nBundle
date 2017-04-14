@@ -1,0 +1,4 @@
+arkounay_block:
+    resource: "@ArkounayBlockI18nBundle/Controller/"
+    type:     annotation
+

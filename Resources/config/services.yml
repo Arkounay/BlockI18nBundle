@@ -1,0 +1,6 @@
+services:
+    arkounay_block_service:
+        class: Arkounay\BlockI18nBundle\Service\BlockService
+        arguments: ['@doctrine.orm.entity_manager', '@security.authorization_checker', '%arkounay_block_i18n_bundle%']
+        tags:
+            - { name: twig.extension }
