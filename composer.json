@@ -9,7 +9,7 @@
     "Inline",
     "bundle"
   ],
-  "homepage": "https://github.com/Arkounay/BlockBundle",
+  "homepage": "https://github.com/Arkounay/BlockI18nBundle",
   "authors": [
     {
       "name": "Antonin M",
@@ -24,8 +24,8 @@
   },
   "autoload": {
     "psr-0": {
-      "Arkounay\\BlockBundle": ""
+      "Arkounay\\BlockI18nBundle": ""
     }
   },
-  "target-dir": "Arkounay/BlockBundle"
+  "target-dir": "Arkounay/BlockI18nBundle"
 }
